@@ -1,0 +1,43 @@
+name: Build and publish site
+
+# TODO (next phase): once Google Forms/Sheets + the moderation pipeline are set up,
+# this workflow will:
+#   1. Read approved rows from the Events & News Google Sheet
+#   2. Download and store a permanent copy of each approved image
+#   3. Generate a static HTML page per approved event/article (in /events and /news)
+#   4. Commit the updated site so GitHub Pages republishes it
+#
+# For now this is a placeholder that only runs the (currently empty) build script
+# on a manual trigger, so the workflow file is in place and testable before the
+# Sheets integration exists.
+
+on:
+  workflow_dispatch: {}      # manual "Run workflow" button in the GitHub Actions tab
+  # schedule:
+  #   - cron: '0 * * * *'    # uncomment for hourly runs once the build script is ready
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run build script (placeholder)
+        run: node scripts/build.js
+
+      - name: Commit generated pages (if any changes)
+        run: |
+          git config user.name "trifoss-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add events news
+          git diff --cached --quiet || git commit -m "Publish approved content"
+          git push

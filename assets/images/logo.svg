@@ -1,0 +1,7 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trifoss emblem">
+  <!-- PLACEHOLDER MARK: replace with the organisation's real logo file when available.
+       Concept: three overlapping arcs standing for the "Tri" in Trifoss. -->
+  <circle cx="20" cy="18" r="13" fill="none" stroke="#1F7A5C" stroke-width="3.2" opacity="0.95"/>
+  <circle cx="30" cy="24" r="13" fill="none" stroke="#145741" stroke-width="3.2" opacity="0.95"/>
+  <circle cx="20" cy="30" r="13" fill="none" stroke="#0A2540" stroke-width="3.2" opacity="0.95"/>
+</svg>
