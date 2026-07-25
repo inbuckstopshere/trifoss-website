@@ -35,12 +35,16 @@ This is a first-pass scaffold with **placeholder content** — anything in `[BRA
 - Leadership names, titles, bios, photos
 - Resources list
 - Contact details and social links
-- Google Form links for Join (ABC1), Events (ABC2), News & Blogs (ABC3), and Newsletter
 - Razorpay and Stripe payment links (Donate section)
+
+## Live Google Forms & Sheets
+
+All four public Forms and their backing Sheets exist, in [this Drive folder](https://drive.google.com/drive/folders/1GuYLITjsnzNMtyVn2wC_acfzL6jmxDeu) (owned by `inbuckstopshere@gmail.com`): Join Trifoss (→ Membership Sheet), Submit an Event (→ Events Stage 1), Submit a Story (→ News & Blogs Stage 1), and Newsletter Sign-up (→ Subscribers). The Stage 2 Sheets, Membership Approvers Sheet, and shared Payments Sheet also exist there, created standalone (no Form feeds them directly). The links above in `index.html` already point at the real Forms.
 
 ## Not yet built
 
-- Google Forms, the Stage 1/Stage 2 Sheets and handoff script for Events/News, the Approvers Sheet for Membership, and the shared Payments Sheet webhook
+- Sharing the Stage 1/2 Sheets and the Approvers Sheet with actual moderators, and populating the Approvers Sheet with real names/emails (it currently has one placeholder row)
+- The Stage 1 → Stage 2 handoff script, daily digest emails, one-click Membership approve/reject links, and the payment webhook — none of these are built yet
 - The Apps Script Web App / Cloudflare Worker that the build script will read from
 - The real build script that generates static Event/News pages and downloads images
 - The scheduled (hourly) GitHub Actions run — currently manual-only so it can be tested safely
