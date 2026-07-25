@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News Archive — Trifoss</title>
+<meta name="description" content="Full archive of every Trifoss news article and blog post.">
+<link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<div class="build-note">Scaffold build — this archive fills in automatically once the build pipeline is live.</div>
+
+<header class="site-header">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/images/logo.svg" alt="Trifoss emblem">
+      <span>Trifoss</span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#news">Latest news &amp; stories</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">News &amp; Blogs</span>
+        <h1>News Archive</h1>
+        <p>Every approved article ever published, in one place. Unlike Events, articles never expire or get removed by date — this page exists for volume, not lifecycle.</p>
+      </div>
+
+      <!-- Placeholder — the build script will list every published article here, most recent first, once the moderation + build pipeline is live. -->
+      <div class="card-grid">
+        <article class="tile">
+          <div class="tile-image">Article image</div>
+          <div class="tile-body">
+            <span class="tile-meta">[Category] · [Date]</span>
+            <h3>[Sample article title]</h3>
+            <p>[PLACEHOLDER] Short excerpt, one or two lines.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom">
+    &copy; <span id="year"></span> Trifoss. All rights reserved.
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

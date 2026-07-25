@@ -1,8 +1,8 @@
 name: Build and publish site
 
-# TODO (next phase): once Google Forms/Sheets + the moderation pipeline are set up,
-# this workflow will:
-#   1. Read approved rows from the Events & News Google Sheet
+# TODO (next phase): once Google Forms/Sheets + the two-stage moderation pipeline
+# are set up, this workflow will:
+#   1. Read rows from each content type's Stage 2 (post-handoff) Google Sheet
 #   2. Download and store a permanent copy of each approved image
 #   3. Generate a static HTML page per approved event/article (in /events and /news)
 #   4. Commit the updated site so GitHub Pages republishes it

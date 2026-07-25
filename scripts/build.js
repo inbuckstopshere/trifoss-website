@@ -2,8 +2,10 @@
  * Trifoss build script — PLACEHOLDER
  *
  * Once Google Forms + Sheets + Apps Script are set up (next phase), this script will:
- *   1. Fetch approved rows from the Events sheet and the News & Blogs sheet
- *      (via a published Apps Script Web App JSON endpoint)
+ *   1. Fetch rows from each content type's Stage 2 sheet — the one a handoff
+ *      script populates only after Stage 1 has approved an item — via a
+ *      published Apps Script Web App JSON endpoint. Stage 1 sheets are never
+ *      read directly by the build.
  *   2. For each approved row not yet published:
  *        - download its image from Google Drive
  *        - save a permanent local copy under /assets/images/events or /assets/images/news
