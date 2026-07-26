@@ -514,6 +514,43 @@ footer.site-footer a { color: #DCE9E2; }
   color: #7E93A0;
 }
 
+/* Gallery photos + lightbox */
+.gallery-tile[style*="background-image"] { color: transparent; }
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.88);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-box {
+  position: relative;
+  max-width: 720px;
+  width: 100%;
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+.lightbox-box img { width: 100%; border-radius: var(--radius-sm); display: block; }
+.lightbox-caption { margin: 14px 0 6px; font-weight: 600; color: var(--navy-deep); }
+.lightbox-link { font-family: var(--font-mono); font-size: 0.8rem; }
+.lightbox-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy-deep);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 /* Placeholder banner shown on the page itself so editors can spot it easily */
 .build-note {
   background: #FFF6DA;

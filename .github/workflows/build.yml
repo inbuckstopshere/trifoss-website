@@ -1,20 +1,20 @@
 name: Build and publish site
 
-# TODO (next phase): once Google Forms/Sheets + the two-stage moderation pipeline
-# are set up, this workflow will:
-#   1. Read rows from each content type's Stage 2 (post-handoff) Google Sheet
-#   2. Download and store a permanent copy of each approved image
-#   3. Generate a static HTML page per approved event/article (in /events and /news)
-#   4. Commit the updated site so GitHub Pages republishes it
+# Reads approved rows from the Events/News Stage 2 Sheets via a small Apps
+# Script Web App (BUILD_ENDPOINT_URL, gated by BUILD_ENDPOINT_KEY — both
+# GitHub repo secrets, see README.md for how to set them up), generates a
+# static page per new approved item, saves its image, and updates the
+# homepage/archive listings. Commits whatever changed so GitHub Pages
+# republishes it.
 #
-# For now this is a placeholder that only runs the (currently empty) build script
-# on a manual trigger, so the workflow file is in place and testable before the
-# Sheets integration exists.
+# Currently manual-trigger only, on purpose — leave it that way until
+# you've run it once via the "Run workflow" button and checked the result.
+# Uncomment the schedule below once you're confident in it.
 
 on:
   workflow_dispatch: {}      # manual "Run workflow" button in the GitHub Actions tab
   # schedule:
-  #   - cron: '0 * * * *'    # uncomment for hourly runs once the build script is ready
+  #   - cron: '0 * * * *'    # uncomment for hourly runs once you trust a manual run
 
 permissions:
   contents: write
@@ -31,13 +31,16 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run build script (placeholder)
+      - name: Run build script
+        env:
+          BUILD_ENDPOINT_URL: ${{ secrets.BUILD_ENDPOINT_URL }}
+          BUILD_ENDPOINT_KEY: ${{ secrets.BUILD_ENDPOINT_KEY }}
         run: node scripts/build.js
 
       - name: Commit generated pages (if any changes)
         run: |
           git config user.name "trifoss-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add events news
+          git add events news assets/images index.html
           git diff --cached --quiet || git commit -m "Publish approved content"
           git push

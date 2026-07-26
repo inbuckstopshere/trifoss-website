@@ -161,9 +161,10 @@
         </p>
       </div>
 
-      <!-- These three tiles are placeholders. Once the moderation + build pipeline is live,
-           this grid will be generated automatically from approved Sheet rows. -->
+      <!-- These three tiles are placeholders until the build script runs for the first time
+           and replaces everything between the BUILD:EVENTS markers below. -->
       <div class="card-grid">
+        <!-- BUILD:EVENTS:START -->
         <article class="tile">
           <div class="tile-image">Event image</div>
           <div class="tile-body">
@@ -188,6 +189,7 @@
             <p>[PLACEHOLDER] Short event description, one or two lines.</p>
           </div>
         </article>
+        <!-- BUILD:EVENTS:END -->
       </div>
 
       <p class="section-footer-link" style="text-align: center;">
@@ -209,8 +211,10 @@
         </p>
       </div>
 
-      <!-- Placeholder tiles — generated automatically once the build pipeline is live. -->
+      <!-- Placeholder tiles until the build script runs and replaces everything between
+           the BUILD:NEWS markers below. -->
       <div class="card-grid">
+        <!-- BUILD:NEWS:START -->
         <article class="tile">
           <div class="tile-image">Article image</div>
           <div class="tile-body">
@@ -235,6 +239,7 @@
             <p>[PLACEHOLDER] Short excerpt, one or two lines.</p>
           </div>
         </article>
+        <!-- BUILD:NEWS:END -->
       </div>
 
       <p class="section-footer-link" style="text-align: center;">
@@ -306,6 +311,7 @@
         <p>Populated automatically from approved Events and News photos.</p>
       </div>
       <div class="gallery-grid">
+        <!-- BUILD:GALLERY:START -->
         <div class="gallery-tile">Photo</div>
         <div class="gallery-tile">Photo</div>
         <div class="gallery-tile">Photo</div>
@@ -314,6 +320,7 @@
         <div class="gallery-tile">Photo</div>
         <div class="gallery-tile">Photo</div>
         <div class="gallery-tile">Photo</div>
+        <!-- BUILD:GALLERY:END -->
       </div>
     </div>
   </section>
