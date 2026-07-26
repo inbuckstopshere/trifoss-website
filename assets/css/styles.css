@@ -1,24 +1,26 @@
 /* =========================================================
    TRIFOSS — DESIGN TOKENS
-   Palette: darker blues + sea green, per brand direction.
+   Palette: navy / green / gold, adopted from sample_website.html.
    Display face: Fraunces (serif, used with restraint)
    Body face: Work Sans
    Utility/meta face: IBM Plex Mono (dates, categories, labels)
    ========================================================= */
 
 :root {
-  /* Color */
-  --navy-deep: #0A2540;
-  --navy-mid: #123C63;
-  --navy-line: #1E4E7A;
-  --sea-green: #1F7A5C;
-  --sea-green-bright: #2E8B57;
-  --sea-green-deep: #145741;
-  --mist: #EDF3F1;
-  --paper: #FFFFFF;
-  --ink: #16232A;
-  --ink-soft: #4A5C63;
-  --line: #DCE6E3;
+  /* Color — from sample_website.html's palette */
+  --navy-deep: #1B2F6E;      /* sample --navy */
+  --navy-mid: #16234F;       /* sample's darker hero-gradient navy stop */
+  --navy-line: #3A4F8C;      /* lighter tint of navy, for borders/lines on dark backgrounds */
+  --sea-green: #1A6B3A;      /* sample --green */
+  --sea-green-bright: #2E8B57; /* lighter tint, for hover/bright accents */
+  --sea-green-deep: #123F22; /* sample's darker hero-gradient green stop */
+  --gold: #B8902A;           /* sample --gold — primary accent (CTAs, meta labels) */
+  --gold-light: #D4A843;     /* sample --gold-lt — hover state for gold */
+  --mist: #F0F4EE;           /* sample --sage */
+  --paper: #FAFBF8;          /* sample --off-wh */
+  --ink: #1C1C1C;            /* sample --text */
+  --ink-soft: #555555;       /* sample --muted */
+  --line: #E5E8E0;           /* sample's card border color */
 
   /* Type */
   --font-display: "Fraunces", Georgia, serif;
@@ -62,7 +64,7 @@ h3 { font-size: 1.2rem; }
 
 p { margin: 0 0 1em; color: var(--ink-soft); }
 
-a { color: var(--sea-green-deep); text-decoration: none; }
+a { color: var(--sea-green); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 a:focus-visible,
@@ -84,7 +86,7 @@ textarea:focus-visible {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--sea-green-deep);
+  color: var(--gold);
   display: block;
   margin-bottom: 0.6em;
 }
@@ -113,10 +115,10 @@ section.tone-navy p { color: #C7D6E0; }
 .btn:hover { text-decoration: none; transform: translateY(-1px); }
 
 .btn-primary {
-  background: var(--sea-green-bright);
+  background: var(--gold);
   color: #FFFFFF;
 }
-.btn-primary:hover { background: var(--sea-green-deep); }
+.btn-primary:hover { background: var(--gold-light); }
 
 .btn-ghost {
   background: transparent;
@@ -210,7 +212,7 @@ nav.primary-nav a:hover { color: #fff; }
    ========================= */
 .hero {
   position: relative;
-  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 78%);
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-mid) 55%, var(--sea-green-deep) 100%);
   color: #fff;
   overflow: hidden;
   padding: 110px 0 96px;
@@ -257,9 +259,11 @@ section.tone-mist .card { background: #fff; }
 .card-mark {
   width: 40px; height: 40px;
   border-radius: 50%;
-  border: 2.4px solid var(--sea-green-bright);
+  border: 2.4px solid var(--gold);
   margin-bottom: 18px;
 }
+/* Vision/Mission two-tone accent, matching sample_website.html's gold/green card pair */
+.split-cards .card:nth-child(2) .card-mark { border-color: var(--sea-green); }
 
 /* =========================
    BENEFITS GRID
@@ -337,7 +341,7 @@ section.tone-mist .card { background: #fff; }
 .tile-meta {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--sea-green-deep);
+  color: var(--gold);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -377,7 +381,7 @@ section.tone-mist .card { background: #fff; }
 .person .role {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: var(--sea-green-deep);
+  color: var(--gold);
   display: block;
   margin-bottom: 8px;
 }
@@ -469,7 +473,7 @@ section.tone-mist .card { background: #fff; }
   font-family: var(--font-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
-  color: var(--sea-green-deep);
+  color: var(--gold);
   min-width: 90px;
 }
 
