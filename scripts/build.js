@@ -147,6 +147,15 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// Escapes HTML first (never trust submitted text with raw tags — that's a
+// real XSS hole on a publicly-submittable form), then converts the
+// submitter's own line breaks into <br> so plain paragraphs still read
+// naturally. The <br> here is a fixed literal we control, not user input,
+// so this doesn't reopen what escapeHtml just closed.
+function escapeHtmlWithBreaks(str) {
+  return escapeHtml(str).replace(/\r\n|\r|\n/g, '<br>');
+}
+
 function replaceBetweenMarkers(html, name, replacement) {
   const start = `<!-- BUILD:${name}:START -->`;
   const end = `<!-- BUILD:${name}:END -->`;
@@ -227,7 +236,7 @@ ${pageHeaderAndNav('#events', 'Upcoming events')}
       <h1>${escapeHtml(e.title)}</h1>
       <p class="tile-meta">${escapeHtml(formatDisplayDate(e.dateObj))}${e.time ? ' · ' + escapeHtml(e.time) : ''} · ${escapeHtml(e.location)}</p>
       ${e.imagePath ? `<img src="../${e.imagePath}" alt="${escapeHtml(e.title)}" style="width:100%;border-radius:12px;margin:20px 0;">` : ''}
-      <p>${escapeHtml(e.description)}</p>
+      <p>${escapeHtmlWithBreaks(e.description)}</p>
       ${e.submitterName ? `<p class="tile-meta">Submitted by ${escapeHtml(e.submitterName)}</p>` : ''}
       ${relatedLink}
       <p><a href="../index.html#events">&larr; Back to Events</a></p>
@@ -265,7 +274,7 @@ ${pageHeaderAndNav('#news', 'Latest news & stories')}
       <h1>${escapeHtml(n.title)}</h1>
       ${n.author ? `<p class="tile-meta">By ${escapeHtml(n.author)}</p>` : ''}
       ${n.imagePath ? `<img src="../${n.imagePath}" alt="${escapeHtml(n.title)}" style="width:100%;border-radius:12px;margin:20px 0;">` : ''}
-      <p>${escapeHtml(n.body)}</p>
+      <p>${escapeHtmlWithBreaks(n.body)}</p>
       ${relatedLink}
       <p><a href="../index.html#news">&larr; Back to News &amp; Blogs</a></p>
     </div>
