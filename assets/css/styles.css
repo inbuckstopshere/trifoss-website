@@ -65,6 +65,24 @@ h3 { font-size: 1.2rem; }
 p { margin: 0 0 1em; color: var(--ink-soft); }
 
 a { color: var(--sea-green); text-decoration: none; }
+
+/* Rendered Markdown content (Event/News body — see scripts/build.js renderMarkdown) */
+main blockquote {
+  border-left: 3px solid var(--gold);
+  margin: 20px 0;
+  padding: 4px 20px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+main code {
+  background: var(--mist);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+main ul, main ol { margin: 0 0 1em; padding-left: 1.4em; }
+main li { margin-bottom: 0.4em; }
 a:hover { text-decoration: underline; }
 
 a:focus-visible,

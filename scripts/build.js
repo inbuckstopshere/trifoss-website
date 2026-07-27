@@ -147,13 +147,98 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// Escapes HTML first (never trust submitted text with raw tags — that's a
-// real XSS hole on a publicly-submittable form), then converts the
-// submitter's own line breaks into <br> so plain paragraphs still read
-// naturally. The <br> here is a fixed literal we control, not user input,
-// so this doesn't reopen what escapeHtml just closed.
-function escapeHtmlWithBreaks(str) {
-  return escapeHtml(str).replace(/\r\n|\r|\n/g, '<br>');
+// A small, hand-rolled Markdown-to-HTML renderer for the full body/
+// description on individual pages (not tile excerpts — truncating
+// already-rendered HTML mid-tag is its own hazard, so previews stay
+// plain-escaped text). Every line is classified and its OWN prefix
+// stripped before escaping, then only a fixed, narrow set of inline
+// patterns get wrapped in specific hardcoded tags — a submitter can
+// never inject an arbitrary tag, only trigger the exact formatting
+// this function already knows how to produce.
+function renderMarkdown(rawText) {
+  const lines = String(rawText == null ? '' : rawText).replace(/\r\n/g, '\n').split('\n');
+  const htmlParts = [];
+  let currentList = null; // 'ul' | 'ol' | null
+  let paragraphLines = [];
+
+  function flushParagraph() {
+    if (paragraphLines.length) {
+      const content = paragraphLines.map((l) => inlineMarkdown(escapeHtml(l))).join('<br>');
+      htmlParts.push(`<p>${content}</p>`);
+      paragraphLines = [];
+    }
+  }
+
+  function flushList() {
+    if (currentList) {
+      htmlParts.push(`</${currentList}>`);
+      currentList = null;
+    }
+  }
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    if (trimmed === '') {
+      flushParagraph();
+      flushList();
+      return;
+    }
+
+    const headingMatch = trimmed.match(/^(#{1,3})\s+(.*)$/);
+    if (headingMatch) {
+      flushParagraph();
+      flushList();
+      const level = headingMatch[1].length + 1; // # -> h2, ## -> h3, ### -> h4 (h1 is the page title)
+      htmlParts.push(`<h${level}>${inlineMarkdown(escapeHtml(headingMatch[2]))}</h${level}>`);
+      return;
+    }
+
+    const quoteMatch = trimmed.match(/^>\s?(.*)$/);
+    if (quoteMatch) {
+      flushParagraph();
+      flushList();
+      htmlParts.push(`<blockquote>${inlineMarkdown(escapeHtml(quoteMatch[1]))}</blockquote>`);
+      return;
+    }
+
+    const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
+    if (ulMatch) {
+      flushParagraph();
+      if (currentList !== 'ul') { flushList(); htmlParts.push('<ul>'); currentList = 'ul'; }
+      htmlParts.push(`<li>${inlineMarkdown(escapeHtml(ulMatch[1]))}</li>`);
+      return;
+    }
+
+    const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
+    if (olMatch) {
+      flushParagraph();
+      if (currentList !== 'ol') { flushList(); htmlParts.push('<ol>'); currentList = 'ol'; }
+      htmlParts.push(`<li>${inlineMarkdown(escapeHtml(olMatch[1]))}</li>`);
+      return;
+    }
+
+    flushList();
+    paragraphLines.push(trimmed);
+  });
+
+  flushParagraph();
+  flushList();
+
+  return htmlParts.join('\n      ');
+}
+
+// Inline-level transforms, applied to ALREADY-ESCAPED text — none of the
+// markdown marker characters (*, _, `, [, ], (, )) are touched by
+// escapeHtml, so pattern-matching for them post-escape is safe. Bold
+// runs before italic so **x** isn't first mis-matched as *?* by the
+// single-asterisk rule.
+function inlineMarkdown(escapedText) {
+  return escapedText
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(?:\*([^*]+)\*|_([^_]+)_)/g, (m, a, b) => `<em>${a || b}</em>`)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 }
 
 function replaceBetweenMarkers(html, name, replacement) {
@@ -236,7 +321,7 @@ ${pageHeaderAndNav('#events', 'Upcoming events')}
       <h1>${escapeHtml(e.title)}</h1>
       <p class="tile-meta">${escapeHtml(formatDisplayDate(e.dateObj))}${e.time ? ' · ' + escapeHtml(e.time) : ''} · ${escapeHtml(e.location)}</p>
       ${e.imagePath ? `<img src="../${e.imagePath}" alt="${escapeHtml(e.title)}" style="width:100%;border-radius:12px;margin:20px 0;">` : ''}
-      <p>${escapeHtmlWithBreaks(e.description)}</p>
+      ${renderMarkdown(e.description)}
       ${e.submitterName ? `<p class="tile-meta">Submitted by ${escapeHtml(e.submitterName)}</p>` : ''}
       ${relatedLink}
       <p><a href="../index.html#events">&larr; Back to Events</a></p>
@@ -274,7 +359,7 @@ ${pageHeaderAndNav('#news', 'Latest news & stories')}
       <h1>${escapeHtml(n.title)}</h1>
       ${n.author ? `<p class="tile-meta">By ${escapeHtml(n.author)}</p>` : ''}
       ${n.imagePath ? `<img src="../${n.imagePath}" alt="${escapeHtml(n.title)}" style="width:100%;border-radius:12px;margin:20px 0;">` : ''}
-      <p>${escapeHtmlWithBreaks(n.body)}</p>
+      ${renderMarkdown(n.body)}
       ${relatedLink}
       <p><a href="../index.html#news">&larr; Back to News &amp; Blogs</a></p>
     </div>
